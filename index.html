@@ -81,7 +81,7 @@
             </h1>
 
             <div class="flex items-center space-x-2 sm:space-x-4">
-                <a href="PAGE SOUMISSION BIBLIOTHEQUE NUMERIQUE.html" class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold hover:from-indigo-700 hover:to-blue-600 transition duration-300 shadow-lg shadow-indigo-400/50 flex items-center text-sm sm:text-base">
+                <a href="submit.html" class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold hover:from-indigo-700 hover:to-blue-600 transition duration-300 shadow-lg shadow-indigo-400/50 flex items-center text-sm sm:text-base">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-0 sm:mr-2">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
                     </svg>
@@ -144,14 +144,7 @@
                                 <label for="filter-annee" class="block text-sm font-medium text-gray-700 mb-1">Année</label>
                                 <select id="filter-annee" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                                     <option value="">Toutes les années</option>
-                                    <option value="2026">2026</option>
-                                    <option value="2025">2025</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2023">2023</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2020">2020</option>
-                                </select>
+                                    </select>
                             </div>
                             <div>
                                 <label for="filter-matricule" class="block text-sm font-medium text-gray-700 mb-1">Matricule</label>
@@ -277,20 +270,49 @@
         // ----------------------------------------------------
 
         /**
+         * MODIFIÉ: Génère dynamiquement la liste des années de 2020 à l'année la plus récente trouvée dans les données (maxAnnee).
+         */
+        function populateAnneeFilter(maxAnnee) {
+            const startYear = 2020; // Début fixe à 2020, comme demandé
+            const endYear = maxAnnee; 
+
+            // Efface toutes les options sauf la première ("Toutes les années")
+            anneeDropdown.innerHTML = '<option value="">Toutes les années</option>'; 
+            
+            // Boucle pour ajouter les années de la plus récente à la plus ancienne
+            for (let year = endYear; year >= startYear; year--) {
+                const option = document.createElement('option');
+                option.value = year.toString();
+                option.textContent = year.toString();
+                anneeDropdown.appendChild(option);
+            }
+        }
+
+
+        /**
          * 1. Crée le HTML pour une seule carte mémoire
          */
         function createCardHTML(memoire) {
-            // 💡 AJUSTEMENT 1: Utilisation de l'adresse de production pour les PDFs
+            // 💡 Vérification robuste des champs de l'API (pour éviter 'undefined')
+            const matricule = memoire.matricule || memoire.student_id || 'N/A'; 
+            const axeRecherche = memoire.axe_recherche || memoire.axe || ''; 
+            
+            const dateSoumissionField = memoire.date_soumission || memoire.date_created || memoire.pub_date || null;
+            
+            const dateSoumission = dateSoumissionField 
+                ? new Date(dateSoumissionField).toLocaleDateString('fr-FR') 
+                : 'N/A';
+            
+
             const pdfUrl = `https://bn-polytechnique-douala-api.onrender.com${memoire.fichier_pdf}`;
             const fullFiliereName = filiereMapping[memoire.filiere] || memoire.filiere;
             
-            // Récupère les classes de couleur ou utilise le gris par défaut
             const colors = filiereColorMapping[memoire.filiere] || { bg: 'bg-gray-100', text: 'text-gray-800' };
 
-            // Ajustement pour l'Axe de Spécialisation (Point 1)
-            const axeHtml = memoire.axe_recherche 
-                ? `<span class="block text-xs text-gray-500 mt-2 font-medium">AXE DE SPÉCIALISATION : ${memoire.axe_recherche}</span>` 
+            const axeHtml = axeRecherche 
+                ? `<p class="text-xs text-indigo-500 mt-1 mb-2 font-semibold">Axe: ${axeRecherche}</p>` 
                 : ''; 
+            
 
             return `
                 <div class="group card-animate bg-white p-5 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl hover:border-indigo-200 transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between" 
@@ -299,24 +321,22 @@
                     
                     <div>
                         <span class="text-xs font-semibold uppercase tracking-wider ${colors.text} ${colors.bg} px-3 py-1 rounded-full">${fullFiliereName}</span>
-                        ${axeHtml}
                         
-                        <a href="PAGE DETAIL BIBLIOTHEQUE NUMERIQUE.html?id=${memoire.id}" class="block hover:text-indigo-600 transition-colors">
-                            <h4 class="text-lg font-bold text-gray-900 mt-2 mb-2 leading-snug">
+                        <a href="detail.html?id=${memoire.id}" class="block hover:text-indigo-600 transition-colors">
+                            <h4 class="text-lg font-bold text-gray-900 mt-2 mb-1 leading-snug">
                                 ${memoire.titre}
                             </h4>
                         </a>
-                        <p class="text-sm text-gray-500"><span class="font-medium text-gray-700">Auteur(s) :</span> ${memoire.auteur}</p>
-                        <p class="text-sm text-gray-500"><span class="font-medium text-gray-700">Année :</span> ${memoire.annee}</p>
+                        
+                        ${axeHtml} <p class="text-sm text-gray-500"><span class="font-medium text-gray-700">Auteur(s) :</span> ${memoire.auteur}</p>
+                        <p class="text-sm text-gray-500"><span class="font-medium text-gray-700">Matricule :</span> ${matricule}</p> <p class="text-sm text-gray-500"><span class="font-medium text-gray-700">Année :</span> ${memoire.annee}</p>
                     </div>
                     
                     <div class="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
-                        <span class="text-xs text-gray-500 font-bold">Publié le: ${new Date(memoire.date_soumission).toLocaleDateString('fr-FR')}</span>
-                        
-                        <a href="${pdfUrl}" target="_blank" rel="noopener noreferrer" class="text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white rounded-full px-3 py-1 transition-all duration-300 font-semibold flex items-center text-sm">
+                        <span class="text-xs text-gray-500 font-bold">Publié le: ${dateSoumission}</span> <a href="${pdfUrl}" target="_blank" rel="noopener noreferrer" class="text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white rounded-full px-3 py-1 transition-all duration-300 font-semibold flex items-center text-sm">
                             Télécharger
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-3-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
                             </svg>
                         </a>
                     </div>
@@ -349,13 +369,17 @@
                 const filiereMatch = (selectedFiliere === "" || memoire.filiere === selectedFiliere);
                 const anneeMatch = (selectedAnnee === "" || memoire.annee.toString() === selectedAnnee);
 
+                // On rend le matricule plus robuste pour le filtrage aussi
+                const matriculeValue = memoire.matricule || memoire.student_id || '';
+
                 const textMatch = (
                     memoire.titre.toLowerCase().includes(searchTerm) ||
                     memoire.auteur.toLowerCase().includes(searchTerm) ||
-                    (memoire.axe_recherche && memoire.axe_recherche.toLowerCase().includes(searchTerm))
+                    (memoire.axe_recherche && memoire.axe_recherche.toLowerCase().includes(searchTerm)) ||
+                    matriculeValue.toLowerCase().includes(searchTerm) // Ajout du matricule dans la recherche générale
                 );
                 
-                const matriculeMatch = (selectedMatricule === "" || memoire.matricule.toLowerCase().includes(selectedMatricule));
+                const matriculeMatch = (selectedMatricule === "" || matriculeValue.toLowerCase().includes(selectedMatricule));
 
                 return filiereMatch && anneeMatch && textMatch && matriculeMatch;
             });
@@ -373,7 +397,7 @@
             resultsCountSpan.textContent = '...';
 
             try {
-                // 💡 AJUSTEMENT 3: Utilisation de l'adresse de production pour l'API
+                // L'adresse de votre API sur Render
                 const response = await fetch('https://bn-polytechnique-douala-api.onrender.com/api/memoires/');
                 if (!response.ok) {
                     throw new Error(`Erreur HTTP: ${response.status}`);
@@ -381,11 +405,27 @@
                 const data = await response.json();
 
                 allMemoires = data; 
+                
+                // 💡 LOGIQUE AJOUTÉE: Calcule l'année maximale présente dans les mémoires
+                // S'il n'y a pas de données, on garde l'année actuelle par défaut, mais au moins 2020
+                const currentYear = new Date().getFullYear();
+                const maxAnnee = allMemoires.reduce((max, memoire) => {
+                    // S'assure que l'année est un nombre
+                    const annee = parseInt(memoire.annee, 10);
+                    return (annee > max) ? annee : max;
+                }, currentYear); // On initialise la valeur max à l'année courante ou à 2020 si le tri ne trouve rien de plus récent
+
+                // Assure que l'année minimale est 2020
+                const finalMaxAnnee = Math.max(maxAnnee, 2020);
+
+                // 💡 UTILISE l'année maximale trouvée pour mettre à jour la liste des options d'année
+                populateAnneeFilter(finalMaxAnnee);
+
                 renderCards(allMemoires); 
 
             } catch (error) {
                 console.error("Erreur de chargement des mémoires:", error);
-                cardGrid.innerHTML = '<p class="text-center text-red-500 py-10 col-span-full">Échec du chargement. Vérifiez votre connexion et l\'adresse de l\'API.</p>';
+                cardGrid.innerHTML = '<p class="text-center text-red-500 py-10 col-span-full">Échec du chargement. Veuillez vérifier que votre API sur Render est active.</p>';
                 resultsCountSpan.textContent = 0;
             }
         }
@@ -395,7 +435,9 @@
         // ----------------------------------------------------
 
         document.addEventListener('DOMContentLoaded', () => {
+            // L'appel à populateAnneeFilter a été déplacé dans loadMemoires pour utiliser la maxAnnee
             loadMemoires(); 
+            
             searchInput.addEventListener('input', filterMemoires);
             applyFilterBtn.addEventListener('click', filterMemoires);
             
@@ -423,7 +465,7 @@
                     filiereDropdown.value = filiere;
 
                     quickFilterTags.forEach(t => t.classList.remove('active-tag'));
-                    const activeTag = document.querySelector(`.filter-tag[data-filiere="${filiere}"]`);
+                    const activeTag = document.querySelector(`.filter-tag[data-filiere=\"${filiere}\"]`);
                     if (activeTag) activeTag.classList.add('active-tag');
 
                     filterMemoires();
