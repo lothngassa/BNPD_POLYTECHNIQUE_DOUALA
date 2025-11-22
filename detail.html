@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BNPD - Détail du Mémoire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* bg-slate-50 */
+        }
+        .text-justified {
+            text-align: justify;
+        }
+        /* Style pour les légendes de métadonnées */
+        .meta-label {
+            font-weight: 600; /* semi-bold */
+            color: #4b5563; /* text-gray-700 */
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <header class="bg-white shadow-md sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="p-2 rounded-md text-gray-700 hover:bg-gray-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><polyline points="15 18 9 12 15 6"/></svg>
+                </a>
+                <img src="logo.png" onerror="this.onerror=null;this.src='https://placehold.co/40x40/4f46e5/ffffff?text=Logo'" alt="Logo ENSPD" class="h-8 w-auto sm:h-10">
+            </div>
+
+            <h1 class="text-lg sm:text-xl font-bold text-indigo-700 text-center truncate flex-1">
+                Détail du Mémoire <span class="hidden sm:inline-block">(BNPD)</span>
+            </h1>
+
+            <div class="flex items-center space-x-2 sm:space-x-4">
+                <a href="submit.html" class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold hover:from-indigo-700 hover:to-blue-600 transition duration-300 shadow-lg shadow-indigo-400/50 flex items-center text-sm sm:text-base">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-0 sm:mr-2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    <span class="hidden sm:inline-block">Téléverser</span>
+                </a>
+                <button class="p-2 rounded-full bg-gray-100 hover:bg-indigo-100 text-gray-600 transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        <div id="loading-spinner" class="text-center py-20">
+            <svg class="animate-spin h-10 w-10 text-indigo-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="mt-4 text-gray-600">Chargement des détails du mémoire...</p>
+        </div>
+
+        <div id="detail-content" class="hidden bg-white p-6 sm:p-8 rounded-xl shadow-2xl border border-gray-100">
+            </div>
+
+        <div class="text-center mt-10">
+            <a href="index.html" class="inline-flex items-center bg-white border-2 border-indigo-500 text-indigo-700 px-8 py-3 rounded-xl font-semibold hover:bg-indigo-50 transition duration-300 shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mr-2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Retour à l'Accueil
+            </a>
+        </div>
+
+    </main>
+
+    <script type="module">
+        // 💡 L'adresse de base de votre API est conservée pour la connexion dynamique
+        const API_BASE_URL = 'https://bn-polytechnique-douala-api.onrender.com/api/memoires/';
+
+        const detailContent = document.getElementById('detail-content');
+        const loadingSpinner = document.getElementById('loading-spinner');
+
+        // Mappage pour afficher le nom complet de la filière
+        const filiereMapping = {
+            'GIT': 'Génie Informatique et télécom', 'GCI': 'Génie Civil', 'GPH': 'Génie Physique',
+            'GM': 'Génie Mécanique', 'GE': 'Génie Énergétique', 'GP': 'Génie des Procédés',
+            'GMP': 'Génie Maritime et Portuaire', 'GAM': 'Génie Automobile et Mécatronique',
+            'QHSE': 'QHSE', 'MP': 'Master Professionnel'
+        };
+
+        // Mappage de couleurs pour les badges de filière
+        const filiereColorMapping = {
+            'GIT': { bg: 'bg-indigo-100', text: 'text-indigo-800' }, 'GCI': { bg: 'bg-green-100', text: 'text-green-800' },
+            'GPH': { bg: 'bg-red-100', text: 'text-red-800' }, 'GM': { bg: 'bg-yellow-100', text: 'text-yellow-800' },
+            'GE': { bg: 'bg-blue-100', text: 'text-blue-800' }, 'GP': { bg: 'bg-purple-100', text: 'text-purple-800' },
+            'GMP': { bg: 'bg-pink-100', text: 'text-pink-800' }, 'GAM': { bg: 'bg-orange-100', text: 'text-orange-800' },
+            'QHSE': { bg: 'bg-teal-100', text: 'text-teal-800' }, 'MP': { bg: 'bg-gray-100', text: 'text-gray-800' }
+        };
+
+        function renderMemoire(memoire) {
+            const fullFiliereName = filiereMapping[memoire.filiere] || memoire.filiere;
+            const colors = filiereColorMapping[memoire.filiere] || { bg: 'bg-gray-100', text: 'text-gray-800' };
+
+            // 💡 AJOUT : Construction de l'URL de téléchargement à partir de l'API
+            const downloadUrl = `https://bn-polytechnique-douala-api.onrender.com${memoire.fichier_pdf}`;
+            
+            const html = `
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-6 leading-tight">
+                    ${memoire.titre}
+                </h1>
+                
+                <span class="text-sm font-semibold uppercase tracking-wider ${colors.text} ${colors.bg} px-3 py-1 rounded-full mb-6 inline-block">
+                    ${fullFiliereName} (${memoire.filiere})
+                </span>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-b pb-6 mb-6">
+                    <p><span class="meta-label">Auteur(s) :</span> ${memoire.auteur}</p>
+                    <p><span class="meta-label">Matricule :</span> ${memoire.matricule}</p>
+                    <p><span class="meta-label">Année de Soutenance :</span> ${memoire.annee}</p>
+                    <p><span class="meta-label">Encadreur(s) :</span> ${memoire.encadreur}</p>
+                    ${memoire.axe_recherche ? `<p><span class="meta-label">Axe de Spécialisation :</span> ${memoire.axe_recherche}</p>` : ''}
+                    <p><span class="meta-label">Date de Soumission :</span> ${new Date(memoire.date_soumission).toLocaleDateString('fr-FR')}</p>
+                </div>
+
+                <div class="mb-8 flex justify-center">
+                    <a href="${downloadUrl}" target="_blank" rel="noopener noreferrer" 
+                       class="inline-flex items-center justify-center bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition duration-300 shadow-xl shadow-indigo-500/50 transform hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mr-2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Télécharger le Mémoire Complet
+                    </a>
+                </div>
+
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Résumé</h2>
+                <p class="text-base text-gray-700 leading-relaxed text-justified">
+                    ${memoire.resume}
+                </p>
+            `;
+
+            detailContent.innerHTML = html;
+            loadingSpinner.classList.add('hidden');
+            detailContent.classList.remove('hidden');
+        }
+
+        async function loadMemoireDetail() {
+            const urlParams = new URLSearchParams(window.location.search);
+            // L'ID doit maintenant être 'id' car c'est ce que renvoie la carte d'index corrigée
+            const memoireId = urlParams.get('id'); 
+            const loadingSpinner = document.getElementById('loading-spinner');
+
+            if (!memoireId) {
+                loadingSpinner.classList.add('hidden');
+                detailContent.innerHTML = '<p class="text-center text-red-500 text-lg py-20">Erreur : ID du mémoire non spécifié dans l\'URL. Assurez-vous d\'avoir cliqué sur une carte depuis la page d\'accueil.</p>';
+                detailContent.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}${memoireId}/`);
+
+                if (!response.ok) {
+                    throw new Error(`Mémoire non trouvé ou Erreur HTTP: ${response.status}`);
+                }
+                const memoire = await response.json();
+                renderMemoire(memoire);
+
+            } catch (error) {
+                console.error("Erreur de chargement du détail du mémoire:", error);
+                loadingSpinner.classList.add('hidden');
+                detailContent.innerHTML = `
+                    <div class="text-center py-20">
+                        <p class="text-xl font-bold text-red-600 mb-4">Erreur de Connexion ou Mémoire Introuvable</p>
+                        <p class="text-gray-600">Veuillez vérifier que l'ID **${memoireId}** existe et que votre API sur Render est active.</p>
+                    </div>
+                `;
+                detailContent.classList.remove('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadMemoireDetail);
+    </script>
+</body>
+</html>
