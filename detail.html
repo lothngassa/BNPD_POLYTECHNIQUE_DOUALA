@@ -76,7 +76,7 @@
     </main>
 
     <script type="module">
-        // 💡 L'adresse de base de votre API est conservée pour la connexion dynamique
+        // L'adresse de base de votre API est conservée pour la connexion dynamique
         const API_BASE_URL = 'https://bn-polytechnique-douala-api.onrender.com/api/memoires/';
 
         const detailContent = document.getElementById('detail-content');
@@ -103,8 +103,10 @@
             const fullFiliereName = filiereMapping[memoire.filiere] || memoire.filiere;
             const colors = filiereColorMapping[memoire.filiere] || { bg: 'bg-gray-100', text: 'text-gray-800' };
 
-            // 💡 AJOUT : Construction de l'URL de téléchargement à partir de l'API
-            const downloadUrl = `https://bn-polytechnique-douala-api.onrender.com${memoire.fichier_pdf}`;
+            // 🌟 CORRECTION CRUCIALE ICI : 
+            // On utilise l'URL Supabase complète directement, sans ajouter l'URL de l'API Render devant.
+            // memoire.fichier_pdf contient maintenant la bonne URL HTTPS Supabase.
+            const downloadUrl = memoire.fichier_pdf; 
             
             const html = `
                 <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-6 leading-tight">
@@ -126,7 +128,7 @@
 
                 <div class="mb-8 flex justify-center">
                     <a href="${downloadUrl}" target="_blank" rel="noopener noreferrer" 
-                       class="inline-flex items-center justify-center bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition duration-300 shadow-xl shadow-indigo-500/50 transform hover:scale-105">
+                        class="inline-flex items-center justify-center bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition duration-300 shadow-xl shadow-indigo-500/50 transform hover:scale-105">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mr-2">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
                         </svg>
@@ -159,6 +161,7 @@
             }
 
             try {
+                // Requête vers l'API Render
                 const response = await fetch(`${API_BASE_URL}${memoireId}/`);
 
                 if (!response.ok) {
