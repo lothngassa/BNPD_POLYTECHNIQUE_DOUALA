@@ -47,7 +47,9 @@
 </head>
 <body class="min-h-screen">
 
+    <!-- Overlay pour la Sidebar -->
     <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-60 z-20 hidden"></div>
+    <!-- Sidebar -->
     <nav id="sidebar" class="fixed top-0 left-0 w-80 h-full bg-white shadow-xl z-30 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
         <div class="p-5 border-b">
             <h2 class="text-xl font-bold text-indigo-700">Filières (ENSPD)</h2>
@@ -66,11 +68,13 @@
         </div>
     </nav>
 
+    <!-- Header / Barre de Navigation -->
     <header class="bg-white shadow-md sticky top-0 z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             
             <div class="flex items-center space-x-3">
                 <button id="burger-btn" class="p-2 rounded-md text-gray-700 hover:bg-gray-100">
+                    <!-- Icone Menu -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                 </button>
                 <img src="logo.png" onerror="this.onerror=null;this.src='https://placehold.co/40x40/4f46e5/ffffff?text=Logo'" alt="Logo ENSPD" class="h-8 w-auto sm:h-10">
@@ -80,14 +84,17 @@
                 Bibliothèque Numérique <span class="hidden sm:inline-block">Polytechnique Douala (BNPD)</span>
             </h1>
 
+            <!-- Actions Utilisateur -->
             <div class="flex items-center space-x-2 sm:space-x-4">
                 <a href="submit.html" class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold hover:from-indigo-700 hover:to-blue-600 transition duration-300 shadow-lg shadow-indigo-400/50 flex items-center text-sm sm:text-base">
+                    <!-- Icone Upload -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-0 sm:mr-2">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
                     </svg>
                     <span class="hidden sm:inline-block">Téléverser</span>
                 </a>
                 <button class="p-2 rounded-full bg-gray-100 hover:bg-indigo-100 text-gray-600 transition duration-300">
+                    <!-- Icone Utilisateur -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                         <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
                     </svg>
@@ -96,8 +103,10 @@
         </div>
     </header>
 
+    <!-- Contenu Principal -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         
+        <!-- Section Recherche et Filtres -->
         <section class="text-center mb-12">
             <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-snug">
                 Bienvenue sur la plateforme des mémoires
@@ -107,21 +116,26 @@
             </p>
 
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center max-w-4xl mx-auto space-y-4 sm:space-y-0 sm:space-x-4">
+                <!-- Champ de Recherche -->
                 <div class="relative flex-grow shadow-xl rounded-xl">
                     <input type="text" id="search-input" placeholder="Rechercher par Thème, titre, nom de l'étudiant, Matricule..." 
-                           class="w-full pl-12 pr-4 py-4 border-2 border-indigo-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 text-lg transition duration-300">
+                        class="w-full pl-12 pr-4 py-4 border-2 border-indigo-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 text-lg transition duration-300">
+                    <!-- Icone Loupe -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-gray-400 absolute left-4 top-1/2 transform -translate-y-1/2">
                         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                     </svg>
                 </div>
                 
+                <!-- Bouton et Dropdown Filtres -->
                 <div class="relative">
                     <button id="filter-toggle-btn" class="w-full sm:w-auto bg-white border-2 border-gray-300 text-gray-800 px-6 py-4 rounded-xl font-semibold hover:bg-gray-50 hover:border-gray-400 transition duration-300 flex items-center justify-center text-lg whitespace-nowrap shadow-sm">
+                        <!-- Icone Filtre -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mr-2">
                             <path d="M3 6h18M7 12h10M10 18h4"/>
                         </svg>
                         Filtres
                     </button>
+                    <!-- Dropdown des filtres -->
                     <div id="filter-dropdown" class="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-xl shadow-lg p-5 z-10 hidden">
                         <div class="space-y-4">
                             <div>
@@ -144,6 +158,7 @@
                                 <label for="filter-annee" class="block text-sm font-medium text-gray-700 mb-1">Année</label>
                                 <select id="filter-annee" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                                     <option value="">Toutes les années</option>
+                                    <!-- Options générées par JS -->
                                     </select>
                             </div>
                             <div>
@@ -157,8 +172,9 @@
                     </div>
                 </div>
 
-                </div>
+            </div>
             
+            <!-- Tags de Filtre Rapide -->
             <div id="quick-filters" class="mt-8 flex flex-wrap justify-center gap-3">
                 <span class="filter-tag bg-white text-indigo-700 border border-indigo-200 px-4 py-2 rounded-full cursor-pointer text-sm font-medium shadow-sm hover:border-indigo-400" data-filiere="GIT">#GIT</span>
                 <span class="filter-tag bg-white text-indigo-700 border border-indigo-200 px-4 py-2 rounded-full cursor-pointer text-sm font-medium shadow-sm hover:border-indigo-400" data-filiere="GCI">#GCI</span>
@@ -173,12 +189,14 @@
             </div>
         </section>
 
+        <!-- Section des Résultats -->
         <section class="mt-12">
             <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">
                 Mémoires Récents (<span id="results-count">0</span>)
             </h3>
 
             <div id="card-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Les cartes de mémoires seront insérées ici par JS -->
             </div>
             
             <div class="text-center mt-10">
@@ -270,7 +288,21 @@
         // ----------------------------------------------------
 
         /**
-         * MODIFIÉ: Génère dynamiquement la liste des années de 2020 à l'année la plus récente trouvée dans les données (maxAnnee).
+         * Mise à jour: Ajout de la gestion de l'état des quick filters lors du changement manuel du dropdown.
+         */
+        function updateQuickFilters(selectedFiliere) {
+            quickFilterTags.forEach(tag => {
+                if (tag.dataset.filiere === selectedFiliere) {
+                    tag.classList.add('active-tag');
+                } else {
+                    tag.classList.remove('active-tag');
+                }
+            });
+        }
+
+
+        /**
+         * Génère dynamiquement la liste des années de 2020 à l'année la plus récente trouvée dans les données (maxAnnee).
          */
         function populateAnneeFilter(maxAnnee) {
             const startYear = 2020; // Début fixe à 2020, comme demandé
@@ -303,7 +335,7 @@
                 ? new Date(dateSoumissionField).toLocaleDateString('fr-FR') 
                 : 'N/A';
             
-
+            // Utilise l'ID du mémoire pour générer un lien vers une page de détail (même si elle n'existe pas encore, c'est une bonne pratique)
             const pdfUrl = `https://bn-polytechnique-douala-api.onrender.com${memoire.fichier_pdf}`;
             const fullFiliereName = filiereMapping[memoire.filiere] || memoire.filiere;
             
@@ -316,8 +348,8 @@
 
             return `
                 <div class="group card-animate bg-white p-5 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl hover:border-indigo-200 transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between" 
-                     data-filiere="${memoire.filiere}" 
-                     data-annee="${memoire.annee}">
+                    data-filiere="${memoire.filiere}" 
+                    data-annee="${memoire.annee}">
                     
                     <div>
                         <span class="text-xs font-semibold uppercase tracking-wider ${colors.text} ${colors.bg} px-3 py-1 rounded-full">${fullFiliereName}</span>
@@ -328,12 +360,15 @@
                             </h4>
                         </a>
                         
-                        ${axeHtml} <p class="text-sm text-gray-500"><span class="font-medium text-gray-700">Auteur(s) :</span> ${memoire.auteur}</p>
-                        <p class="text-sm text-gray-500"><span class="font-medium text-gray-700">Matricule :</span> ${matricule}</p> <p class="text-sm text-gray-500"><span class="font-medium text-gray-700">Année :</span> ${memoire.annee}</p>
+                        ${axeHtml}
+                        <p class="text-sm text-gray-500"><span class="font-medium text-gray-700">Auteur(s) :</span> ${memoire.auteur}</p>
+                        <p class="text-sm text-gray-500"><span class="font-medium text-gray-700">Matricule :</span> ${matricule}</p>
+                        <p class="text-sm text-gray-500"><span class="font-medium text-gray-700">Année :</span> ${memoire.annee}</p>
                     </div>
                     
                     <div class="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
-                        <span class="text-xs text-gray-500 font-bold">Publié le: ${dateSoumission}</span> <a href="${pdfUrl}" target="_blank" rel="noopener noreferrer" class="text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white rounded-full px-3 py-1 transition-all duration-300 font-semibold flex items-center text-sm">
+                        <span class="text-xs text-gray-500 font-bold">Publié le: ${dateSoumission}</span>
+                        <a href="${pdfUrl}" target="_blank" rel="noopener noreferrer" class="text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white rounded-full px-3 py-1 transition-all duration-300 font-semibold flex items-center text-sm">
                             Télécharger
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
@@ -361,15 +396,18 @@
          */
         function filterMemoires() {
             const searchTerm = searchInput.value.toLowerCase();
-            const selectedFiliere = filiereDropdown.value;
+            const selectedFiliere = filiereDropdown.value; // Source of truth for filiere
             const selectedAnnee = anneeDropdown.value;
             const selectedMatricule = matriculeInput.value.toLowerCase(); 
 
+            // IMPORTANT: Synchronise les tags rapides avec l'état du dropdown après tout filtre
+            updateQuickFilters(selectedFiliere);
+            
             const filteredMemoires = allMemoires.filter(memoire => {
                 const filiereMatch = (selectedFiliere === "" || memoire.filiere === selectedFiliere);
                 const anneeMatch = (selectedAnnee === "" || memoire.annee.toString() === selectedAnnee);
 
-                // On rend le matricule plus robuste pour le filtrage aussi
+                // On rend le matricule plus robuste pour le filtrage
                 const matriculeValue = memoire.matricule || memoire.student_id || '';
 
                 const textMatch = (
@@ -382,6 +420,9 @@
                 const matriculeMatch = (selectedMatricule === "" || matriculeValue.toLowerCase().includes(selectedMatricule));
 
                 return filiereMatch && anneeMatch && textMatch && matriculeMatch;
+            }).sort((a, b) => {
+                 // Tri par année décroissante
+                return parseInt(b.annee) - parseInt(a.annee);
             });
 
             renderCards(filteredMemoires);
@@ -396,27 +437,50 @@
             cardGrid.innerHTML = '<p class="text-center text-slate-500 py-10 col-span-full">Chargement des mémoires...</p>';
             resultsCountSpan.textContent = '...';
 
+            // Fonction utilitaire pour l'exponential backoff
+            const fetchWithRetry = async (url, options, maxRetries = 5) => {
+                let lastError = null;
+                for (let i = 0; i < maxRetries; i++) {
+                    try {
+                        const response = await fetch(url, options);
+                        if (!response.ok) {
+                            throw new Error(`Erreur HTTP: ${response.status}`);
+                        }
+                        return response;
+                    } catch (error) {
+                        lastError = error;
+                        const delay = Math.pow(2, i) * 1000; // 1s, 2s, 4s, 8s...
+                        if (i < maxRetries - 1) {
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                        }
+                    }
+                }
+                throw lastError;
+            };
+
             try {
                 // L'adresse de votre API sur Render
-                const response = await fetch('https://bn-polytechnique-douala-api.onrender.com/api/memoires/');
-                if (!response.ok) {
-                    throw new Error(`Erreur HTTP: ${response.status}`);
-                }
+                const response = await fetchWithRetry('https://bn-polytechnique-douala-api.onrender.com/api/memoires/');
+                
                 const data = await response.json();
 
-                allMemoires = data; 
+                // Sortir les données par défaut avant de les stocker
+                allMemoires = data.sort((a, b) => {
+                    return parseInt(b.annee) - parseInt(a.annee);
+                });
                 
                 // 💡 LOGIQUE AJOUTÉE: Calcule l'année maximale présente dans les mémoires
-                // S'il n'y a pas de données, on garde l'année actuelle par défaut, mais au moins 2020
                 const currentYear = new Date().getFullYear();
                 const maxAnnee = allMemoires.reduce((max, memoire) => {
                     // S'assure que l'année est un nombre
                     const annee = parseInt(memoire.annee, 10);
+                    // On filtre les années invalides (NaN)
+                    if (isNaN(annee)) return max;
                     return (annee > max) ? annee : max;
-                }, currentYear); // On initialise la valeur max à l'année courante ou à 2020 si le tri ne trouve rien de plus récent
+                }, 2020); // Commence la réduction à 2020 ou à l'année courante
 
-                // Assure que l'année minimale est 2020
-                const finalMaxAnnee = Math.max(maxAnnee, 2020);
+                // Assure que l'année maximale affichée est au moins l'année actuelle si aucune donnée plus récente n'est trouvée
+                const finalMaxAnnee = Math.max(maxAnnee, currentYear);
 
                 // 💡 UTILISE l'année maximale trouvée pour mettre à jour la liste des options d'année
                 populateAnneeFilter(finalMaxAnnee);
@@ -425,7 +489,7 @@
 
             } catch (error) {
                 console.error("Erreur de chargement des mémoires:", error);
-                cardGrid.innerHTML = '<p class="text-center text-red-500 py-10 col-span-full">Échec du chargement. Veuillez vérifier que votre API sur Render est active.</p>';
+                cardGrid.innerHTML = '<p class="text-center text-red-500 py-10 col-span-full">Échec du chargement des données. Veuillez vérifier que l\'API est accessible.</p>';
                 resultsCountSpan.textContent = 0;
             }
         }
@@ -435,41 +499,56 @@
         // ----------------------------------------------------
 
         document.addEventListener('DOMContentLoaded', () => {
-            // L'appel à populateAnneeFilter a été déplacé dans loadMemoires pour utiliser la maxAnnee
             loadMemoires(); 
             
+            // Écouteur pour la recherche en temps réel
             searchInput.addEventListener('input', filterMemoires);
+
+            // Écouteur pour l'application des filtres via le bouton
             applyFilterBtn.addEventListener('click', filterMemoires);
             
+            // Écouteur pour le changement de sélection dans le dropdown de filière
+            filiereDropdown.addEventListener('change', () => {
+                // S'assure que le filtre rapide est synchronisé
+                updateQuickFilters(filiereDropdown.value);
+                // Applique le filtre immédiatement au changement pour une meilleure UX
+                filterMemoires();
+            });
+
+            // Écouteur pour les tags de filtre rapide
             quickFilterTags.forEach(tag => {
                 tag.addEventListener('click', () => {
                     const filiere = tag.dataset.filiere;
 
                     if (tag.classList.contains('active-tag')) {
-                        tag.classList.remove('active-tag');
+                        // Désactive le filtre
                         filiereDropdown.value = ""; 
                     } else {
-                        quickFilterTags.forEach(t => t.classList.remove('active-tag'));
-                        tag.classList.add('active-tag');
+                        // Active le nouveau filtre
                         filiereDropdown.value = filiere; 
                     }
+                    // Le changement de filiereDropdown.value déclenchera filterMemoires() via l'écouteur 'change' s'il était actif,
+                    // mais nous le déclenchons ici explicitement aussi pour les cas où le 'change' ne se déclenche pas (comme dans le cas de la suppression).
                     filterMemoires(); 
                 });
             });
 
+            // Écouteur pour les liens de la sidebar
             sidebarLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault(); 
                     const filiere = e.currentTarget.dataset.filiere;
 
+                    // 1. Met à jour le dropdown de filière (Source de Vérité)
                     filiereDropdown.value = filiere;
 
-                    quickFilterTags.forEach(t => t.classList.remove('active-tag'));
-                    const activeTag = document.querySelector(`.filter-tag[data-filiere=\"${filiere}\"]`);
-                    if (activeTag) activeTag.classList.add('active-tag');
+                    // 2. Synchronise les tags rapides
+                    updateQuickFilters(filiere);
 
+                    // 3. Applique les filtres
                     filterMemoires();
 
+                    // 4. Ferme la sidebar
                     sidebar.classList.add('-translate-x-full');
                     overlay.classList.add('hidden');
                 });
