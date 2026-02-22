@@ -151,23 +151,22 @@
     </main>
 
     <script>
-// --- Éléments du DOM (CORRIGÉ) ---
-const form = document.getElementById('upload-form'); // Utilisation de l'ID 'upload-form' si c'est celui de votre formulaire
-    const submitButton = document.getElementById('submit-button'); // Utilisation de l'ID 'submit-button'
+const form = document.getElementById('upload-form'); 
+    const submitButton = document.getElementById('submit-button'); '
     const messageBox = document.getElementById('message-box');
     const messageText = document.getElementById('message-text');
-    const fileInput = document.getElementById('file-input'); // Utilisation de l'ID 'file-input'
+    const fileInput = document.getElementById('file-input'); 
     const dropArea = document.getElementById('drop-area');
-    const fileLabel = document.getElementById('file-name-display'); // Utilisation de l'ID 'file-name-display'
+    const fileLabel = document.getElementById('file-name-display'); 
     const filiereSelect = document.getElementById('filiere');
-    const axeContainer = document.getElementById('axe-container'); // << CORRIGÉ : utilise 'axe-container'
-    const axeSelect = document.getElementById('axe'); // << CORRIGÉ : utilise 'axe'
+    const axeContainer = document.getElementById('axe-container'); 
+    const axeSelect = document.getElementById('axe'); 
 
     // Configuration de l'API
-    // 💡 CORRECTION 2: Utilisation de l'adresse de production
+   
     const API_ENDPOINT = 'https://bn-polytechnique-douala-api.onrender.com/api/memoires/';
 
-    // --- Mappage Filières/Axes (CORRIGÉ pour correspondre à vos données initiales) ---
+    
     const axesData = {
         'GIT': ['GLO (Génie Logiciel)', 'GRT (Génie Réseaux et Télécoms)', 'IA (Intelligence Artificielle)'],
         'GCI': ['Bâtiment', 'Travaux Publics', 'Géotechnique', 'Hydraulique'],
@@ -181,7 +180,7 @@ const form = document.getElementById('upload-form'); // Utilisation de l'ID 'upl
         'MP': ['Biologie Appliquée', 'Informatique de Gestion', 'Management de Projet', 'Autre']
     };
 
-    // --- Fonction d'initialisation des axes (ADAPTÉE) ---
+    // --- Fonction d'initialisation des axes 
     function updateAxeOptions(filiere) {
         axeSelect.innerHTML = '<option value="">Choisir un axe...</option>';
         axeSelect.required = false;
@@ -333,3 +332,4 @@ const form = document.getElementById('upload-form'); // Utilisation de l'ID 'upl
 
 </body>
 </html>
+
