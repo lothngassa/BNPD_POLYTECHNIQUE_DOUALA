@@ -76,13 +76,13 @@
     </main>
 
     <script type="module">
-        // L'adresse de base de votre API est conservée pour la connexion dynamique
+    
         const API_BASE_URL = 'https://bn-polytechnique-douala-api.onrender.com/api/memoires/';
 
         const detailContent = document.getElementById('detail-content');
         const loadingSpinner = document.getElementById('loading-spinner');
 
-        // Mappage pour afficher le nom complet de la filière
+      
         const filiereMapping = {
             'GIT': 'Génie Informatique et télécom', 'GCI': 'Génie Civil', 'GPH': 'Génie Physique',
             'GM': 'Génie Mécanique', 'GE': 'Génie Énergétique', 'GP': 'Génie des Procédés',
@@ -103,9 +103,7 @@
             const fullFiliereName = filiereMapping[memoire.filiere] || memoire.filiere;
             const colors = filiereColorMapping[memoire.filiere] || { bg: 'bg-gray-100', text: 'text-gray-800' };
 
-            // 🌟 CORRECTION CRUCIALE ICI : 
-            // On utilise l'URL Supabase complète directement, sans ajouter l'URL de l'API Render devant.
-            // memoire.fichier_pdf contient maintenant la bonne URL HTTPS Supabase.
+          
             const downloadUrl = memoire.fichier_pdf; 
             
             const html = `
@@ -149,7 +147,7 @@
 
         async function loadMemoireDetail() {
             const urlParams = new URLSearchParams(window.location.search);
-            // L'ID doit maintenant être 'id' car c'est ce que renvoie la carte d'index corrigée
+            
             const memoireId = urlParams.get('id'); 
             const loadingSpinner = document.getElementById('loading-spinner');
 
@@ -187,3 +185,4 @@
     </script>
 </body>
 </html>
+
