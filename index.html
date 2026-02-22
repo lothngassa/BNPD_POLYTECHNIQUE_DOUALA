@@ -301,9 +301,7 @@
         }
 
 
-        /**
-         * Génère dynamiquement la liste des années de 2020 à l'année la plus récente trouvée dans les données (maxAnnee).
-         */
+        
         function populateAnneeFilter(maxAnnee) {
             const startYear = 2020; // Début fixe à 2020, comme demandé
             const endYear = maxAnnee; 
@@ -325,7 +323,7 @@
          * 1. Crée le HTML pour une seule carte mémoire
          */
         function createCardHTML(memoire) {
-            // 💡 Vérification robuste des champs de l'API (pour éviter 'undefined')
+            
             const matricule = memoire.matricule || memoire.student_id || 'N/A'; 
             const axeRecherche = memoire.axe_recherche || memoire.axe || ''; 
             
@@ -558,3 +556,4 @@
     </script>
 </body>
 </html>
+
