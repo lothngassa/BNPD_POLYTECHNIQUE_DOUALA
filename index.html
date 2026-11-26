@@ -1,559 +1,224 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BNPD - Bibliothèque Numérique Polytechnique Douala</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* bg-slate-50 */
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .card-animate {
-            animation: fadeIn 0.5s ease-out forwards;
-            opacity: 0;
-        }
-        /* Délai d'animation pour un effet escalier */
-        .card-animate:nth-child(1) { animation-delay: 0.1s; }
-        .card-animate:nth-child(2) { animation-delay: 0.15s; }
-        .card-animate:nth-child(3) { animation-delay: 0.2s; }
-        .card-animate:nth-child(4) { animation-delay: 0.25s; }
-        .card-animate:nth-child(5) { animation-delay: 0.3s; }
-        .card-animate:nth-child(6) { animation-delay: 0.35s; }
-        .card-animate:nth-child(7) { animation-delay: 0.4s; }
-        .card-animate:nth-child(8) { animation-delay: 0.45s; }
-        .card-animate:nth-child(9) { animation-delay: 0.5s; }
-        .card-animate:nth-child(10) { animation-delay: 0.55s; }
-        .card-animate:nth-child(11) { animation-delay: 0.6s; }
-        .card-animate:nth-child(12) { animation-delay: 0.65s; }
-
-        .hidden { display: none; }
-
-        /* Style pour le tag de filtre actif */
-        .filter-tag.active-tag {
-            background-color: #4f46e5; /* bg-indigo-600 */
-            color: white;
-            border-color: #4f46e5;
-            font-weight: 600;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BNPD, la bibliothèque numérique des mémoires de l'ENSPD</title>
+  <meta name="description" content="Cherchez, lisez et déposez les mémoires de fin d'études de l'École Nationale Supérieure Polytechnique de Douala.">
+  <meta name="theme-color" content="#0b0d11" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="logo.png">
+  <script>
+    (function () {
+      var t = localStorage.getItem("bnpd-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.dataset.theme = t;
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/bnpd.css">
 </head>
-<body class="min-h-screen">
+<body>
+  <header class="top">
+    <div class="wrap top-in">
+      <a class="brand" href="index.html" aria-label="BNPD, accueil">
+        <img src="logo.png" alt="" width="30" height="35">
+        <span class="brand-name">BNPD</span>
+        <span class="brand-sub">Bibliothèque numérique<br>Polytechnique Douala</span>
+      </a>
+      <nav class="nav" aria-label="Navigation principale">
+        <a class="nav-link" href="index.html" aria-current="page">Explorer</a>
+        <a class="btn btn-primary" href="submit.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          <span>Déposer<span class="btn-label-long"> un mémoire</span></span>
+        </a>
+        <button class="icon-btn" id="theme-btn" type="button" aria-label="Basculer entre le thème clair et le thème sombre">
+          <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Overlay pour la Sidebar -->
-    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-60 z-20 hidden"></div>
-    <!-- Sidebar -->
-    <nav id="sidebar" class="fixed top-0 left-0 w-80 h-full bg-white shadow-xl z-30 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
-        <div class="p-5 border-b">
-            <h2 class="text-xl font-bold text-indigo-700">Filières (ENSPD)</h2>
+  <main>
+    <section class="hero wrap">
+      <p class="eyebrow">École Nationale Supérieure Polytechnique de Douala</p>
+      <h1 class="display">Les mémoires de l'ENSPD,<br><em>ouverts à tous.</em></h1>
+      <p class="lead">Cherchez par titre, auteur, matricule ou mot-clé. Lisez en ligne, citez en un clic, et déposez le vôtre en deux minutes.</p>
+      <form class="search" role="search" onsubmit="return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <label class="sr-only" for="q">Rechercher un mémoire</label>
+        <input id="q" type="search" placeholder="Un titre, un auteur, un matricule, un mot-clé" autocomplete="off">
+        <kbd aria-hidden="true">/</kbd>
+      </form>
+      <dl class="stats" id="stats" hidden>
+        <div><dt>mémoires</dt><dd id="s-count">0</dd></div>
+        <div><dt>filières</dt><dd>10</dd></div>
+        <div><dt>années de soutenance</dt><dd id="s-years">-</dd></div>
+      </dl>
+    </section>
+
+    <section class="wrap" aria-labelledby="results-title">
+      <div class="notice" id="notice" role="status" hidden></div>
+
+      <div class="toolbar">
+        <div class="chips" id="chips" aria-label="Filtrer par filière"></div>
+        <div class="selects">
+          <label class="select"><span class="sr-only">Année de soutenance</span><select id="year"><option value="">Toutes les années</option></select></label>
+          <label class="select"><span class="sr-only">Trier</span>
+            <select id="sort">
+              <option value="recent">Plus récents</option>
+              <option value="annee">Année de soutenance</option>
+              <option value="titre">Titre, de A à Z</option>
+            </select>
+          </label>
         </div>
-        <div id="sidebar-links" class="flex flex-col p-4 space-y-2 flex-1 overflow-y-auto">
-            <a href="#" data-filiere="GIT" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 font-medium">Génie Informatique et télécom (GIT)</a>
-            <a href="#" data-filiere="GCI" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 font-medium">Génie Civil (GCI)</a>
-            <a href="#" data-filiere="GPH" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 font-medium">Génie Physique (GPH)</a>
-            <a href="#" data-filiere="GM" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 font-medium">Génie Mécanique (GM)</a>
-            <a href="#" data-filiere="GE" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 font-medium">Génie Énergétique (GE)</a>
-            <a href="#" data-filiere="GP" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 font-medium">Génie des Procédés (GP)</a>
-            <a href="#" data-filiere="GMP" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 font-medium">Génie Maritime et Portuaire (GMP)</a>
-            <a href="#" data-filiere="GAM" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 font-medium">Génie Automobile et Mécatronique (GAM)</a>
-            <a href="#" data-filiere="QHSE" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 font-medium">QHSE</a>
-            <a href="#" data-filiere="MP" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 font-medium">Master Professionnel (MP)</a>
-        </div>
-    </nav>
+      </div>
 
-    <!-- Header / Barre de Navigation -->
-    <header class="bg-white shadow-md sticky top-0 z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            
-            <div class="flex items-center space-x-3">
-                <button id="burger-btn" class="p-2 rounded-md text-gray-700 hover:bg-gray-100">
-                    <!-- Icone Menu -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-                </button>
-                <img src="logo.png" onerror="this.onerror=null;this.src='https://placehold.co/40x40/4f46e5/ffffff?text=Logo'" alt="Logo ENSPD" class="h-8 w-auto sm:h-10">
-            </div>
+      <div class="results-head">
+        <h2 id="results-title">Tous les mémoires</h2>
+        <span id="results-count"></span>
+      </div>
+      <div class="grid" id="grid" aria-live="polite"></div>
+      <div class="more"><button class="btn btn-ghost" id="more" type="button" hidden>Afficher plus de mémoires</button></div>
+    </section>
+  </main>
 
-            <h1 class="text-lg sm:text-xl font-bold text-indigo-700 text-center truncate flex-1">
-                Bibliothèque Numérique <span class="hidden sm:inline-block">Polytechnique Douala (BNPD)</span>
-            </h1>
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <a class="brand" href="index.html"><img src="logo.png" alt="" width="22" height="26"><span class="brand-name">BNPD</span></a>
+      <p>La bibliothèque numérique des mémoires de l'École Nationale Supérieure Polytechnique de Douala.</p>
+      <p>Conçue et développée par <a href="https://lothngassa.com">Loth Ngassa</a></p>
+    </div>
+  </footer>
 
-            <!-- Actions Utilisateur -->
-            <div class="flex items-center space-x-2 sm:space-x-4">
-                <a href="submit.html" class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold hover:from-indigo-700 hover:to-blue-600 transition duration-300 shadow-lg shadow-indigo-400/50 flex items-center text-sm sm:text-base">
-                    <!-- Icone Upload -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-0 sm:mr-2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
-                    </svg>
-                    <span class="hidden sm:inline-block">Téléverser</span>
-                </a>
-                <button class="p-2 rounded-full bg-gray-100 hover:bg-indigo-100 text-gray-600 transition duration-300">
-                    <!-- Icone Utilisateur -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </header>
+  <script type="module">
+    import { API, FILIERES, esc, normalize, coverHTML, fetchJSON, initTheme } from "./assets/app.js";
+    import { EXEMPLES } from "./assets/exemples.js";
 
-    <!-- Contenu Principal -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        
-        <!-- Section Recherche et Filtres -->
-        <section class="text-center mb-12">
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-snug">
-                Bienvenue sur la plateforme des mémoires
-            </h2>
-            <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-                de l'Ecole Nationale Supérieure Polytechnique de Douala
-            </p>
+    initTheme();
+    const $ = (id) => document.getElementById(id);
+    const PAGE = 12;
+    const params = new URLSearchParams(location.search);
+    const state = { all: [], q: params.get("q") || "", f: params.get("f") || "", year: "", sort: "recent", shown: PAGE };
 
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center max-w-4xl mx-auto space-y-4 sm:space-y-0 sm:space-x-4">
-                <!-- Champ de Recherche -->
-                <div class="relative flex-grow shadow-xl rounded-xl">
-                    <input type="text" id="search-input" placeholder="Rechercher par Thème, titre, nom de l'étudiant, Matricule..." 
-                        class="w-full pl-12 pr-4 py-4 border-2 border-indigo-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 text-lg transition duration-300">
-                    <!-- Icone Loupe -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-gray-400 absolute left-4 top-1/2 transform -translate-y-1/2">
-                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                    </svg>
-                </div>
-                
-                <!-- Bouton et Dropdown Filtres -->
-                <div class="relative">
-                    <button id="filter-toggle-btn" class="w-full sm:w-auto bg-white border-2 border-gray-300 text-gray-800 px-6 py-4 rounded-xl font-semibold hover:bg-gray-50 hover:border-gray-400 transition duration-300 flex items-center justify-center text-lg whitespace-nowrap shadow-sm">
-                        <!-- Icone Filtre -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mr-2">
-                            <path d="M3 6h18M7 12h10M10 18h4"/>
-                        </svg>
-                        Filtres
-                    </button>
-                    <!-- Dropdown des filtres -->
-                    <div id="filter-dropdown" class="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-xl shadow-lg p-5 z-10 hidden">
-                        <div class="space-y-4">
-                            <div>
-                                <label for="filter-filiere" class="block text-sm font-medium text-gray-700 mb-1">Filière</label>
-                                <select id="filter-filiere" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                    <option value="">Toutes les filières</option>
-                                    <option value="GIT">GIT</option>
-                                    <option value="GCI">GCI</option>
-                                    <option value="GPH">GPH</option>
-                                    <option value="GM">GM</option>
-                                    <option value="GE">GE</option>
-                                    <option value="GP">GP</option>
-                                    <option value="GMP">GMP</option>
-                                    <option value="GAM">GAM</option>
-                                    <option value="QHSE">QHSE</option>
-                                    <option value="MP">MP</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="filter-annee" class="block text-sm font-medium text-gray-700 mb-1">Année</label>
-                                <select id="filter-annee" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                    <option value="">Toutes les années</option>
-                                    <!-- Options générées par JS -->
-                                    </select>
-                            </div>
-                            <div>
-                                <label for="filter-matricule" class="block text-sm font-medium text-gray-700 mb-1">Matricule</label>
-                                <input type="text" id="filter-matricule" placeholder="Ex: 21G..." class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            </div>
-                            <button id="apply-filter-btn" class="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300">
-                                Appliquer les filtres
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    $("q").value = state.q;
+    $("chips").innerHTML = [["", "Toutes"], ...Object.keys(FILIERES).map((k) => [k, k])]
+      .map(([k, label]) => `<button class="chip" type="button" data-f="${k}" aria-pressed="${k === state.f}" ${k ? `title="${esc(FILIERES[k])}"` : ""}>${k ? '<i class="dot"></i>' : ""}${label}</button>`)
+      .join("");
 
-            </div>
-            
-            <!-- Tags de Filtre Rapide -->
-            <div id="quick-filters" class="mt-8 flex flex-wrap justify-center gap-3">
-                <span class="filter-tag bg-white text-indigo-700 border border-indigo-200 px-4 py-2 rounded-full cursor-pointer text-sm font-medium shadow-sm hover:border-indigo-400" data-filiere="GIT">#GIT</span>
-                <span class="filter-tag bg-white text-indigo-700 border border-indigo-200 px-4 py-2 rounded-full cursor-pointer text-sm font-medium shadow-sm hover:border-indigo-400" data-filiere="GCI">#GCI</span>
-                <span class="filter-tag bg-white text-indigo-700 border border-indigo-200 px-4 py-2 rounded-full cursor-pointer text-sm font-medium shadow-sm hover:border-indigo-400" data-filiere="GPH">#GPH</span>
-                <span class="filter-tag bg-white text-indigo-700 border border-indigo-200 px-4 py-2 rounded-full cursor-pointer text-sm font-medium shadow-sm hover:border-indigo-400" data-filiere="GM">#GM</span>
-                <span class="filter-tag bg-white text-indigo-700 border border-indigo-200 px-4 py-2 rounded-full cursor-pointer text-sm font-medium shadow-sm hover:border-indigo-400" data-filiere="GE">#GE</span>
-                <span class="filter-tag bg-white text-indigo-700 border border-indigo-200 px-4 py-2 rounded-full cursor-pointer text-sm font-medium shadow-sm hover:border-indigo-400" data-filiere="GP">#GP</span>
-                <span class="filter-tag bg-white text-indigo-700 border border-indigo-200 px-4 py-2 rounded-full cursor-pointer text-sm font-medium shadow-sm hover:border-indigo-400" data-filiere="GMP">#GMP</span>
-                <span class="filter-tag bg-white text-indigo-700 border border-indigo-200 px-4 py-2 rounded-full cursor-pointer text-sm font-medium shadow-sm hover:border-indigo-400" data-filiere="GAM">#GAM</span>
-                <span class="filter-tag bg-white text-indigo-700 border border-indigo-200 px-4 py-2 rounded-full cursor-pointer text-sm font-medium shadow-sm hover:border-indigo-400" data-filiere="QHSE">#QHSE</span>
-                <span class="filter-tag bg-white text-indigo-700 border border-indigo-200 px-4 py-2 rounded-full cursor-pointer text-sm font-medium shadow-sm hover:border-indigo-400" data-filiere="MP">#MP</span>
-            </div>
-        </section>
+    const NOTICES = {
+      wake: `<p><strong>Le serveur se réveille.</strong> L'hébergement gratuit s'endort quand personne ne le consulte : les mémoires arrivent dans quelques secondes.</p>`,
+      examples: `<p><strong>Aperçu de la bibliothèque.</strong> Elle est prête à recevoir ses premiers mémoires. Les fiches ci-dessous sont des exemples fictifs qui montrent la présentation, et elles disparaîtront dès le premier dépôt.</p><a class="btn btn-primary" href="submit.html">Déposer le premier mémoire</a>`,
+      offline: `<p><strong>Le serveur ne répond pas pour le moment.</strong> En attendant, voici un aperçu de la bibliothèque avec des exemples fictifs.</p><button class="btn btn-ghost" type="button" onclick="location.reload()">Réessayer</button>`,
+    };
+    function notice(kind) {
+      $("notice").innerHTML = kind ? NOTICES[kind] : "";
+      $("notice").hidden = !kind;
+    }
 
-        <!-- Section des Résultats -->
-        <section class="mt-12">
-            <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">
-                Mémoires Récents (<span id="results-count">0</span>)
-            </h3>
+    function skeletons(n = 8) {
+      $("grid").innerHTML = Array.from({ length: n }, () =>
+        `<div class="skel"><div class="cover"></div><div class="line"></div><div class="line short"></div></div>`).join("");
+    }
 
-            <div id="card-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                <!-- Les cartes de mémoires seront insérées ici par JS -->
-            </div>
-            
-            <div class="text-center mt-10">
-                <button class="bg-indigo-50 border-2 border-indigo-200 text-indigo-700 px-8 py-3 rounded-xl font-semibold hover:bg-indigo-100 hover:shadow-lg transition duration-300 shadow-md">
-                    Afficher plus de résultats
-                </button>
-            </div>
-        </section>
+    const SORTS = {
+      recent: (a, b) => new Date(b.date_soumission) - new Date(a.date_soumission),
+      annee: (a, b) => b.annee - a.annee || a.titre.localeCompare(b.titre, "fr"),
+      titre: (a, b) => a.titre.localeCompare(b.titre, "fr"),
+    };
 
-    </main>
+    function filtered() {
+      const q = normalize(state.q).trim();
+      return state.all
+        .filter((m) => !state.f || m.filiere === state.f)
+        .filter((m) => !state.year || String(m.annee) === state.year)
+        .filter((m) => !q || normalize([m.titre, m.auteur, m.matricule, m.axe_recherche, m.mots_cles].join(" ")).includes(q))
+        .sort(SORTS[state.sort]);
+    }
 
-    <script type="module">
-        // --- Éléments du DOM (UI) ---
-        const burgerBtn = document.getElementById('burger-btn');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('sidebar-overlay');
-        const filterBtn = document.getElementById('filter-toggle-btn');
-        const filterDropdown = document.getElementById('filter-dropdown');
-        
-        // --- Éléments du DOM (Filtrage et Données) ---
-        const cardGrid = document.getElementById('card-grid');
-        const resultsCountSpan = document.getElementById('results-count');
-        const searchInput = document.getElementById('search-input');
-        const filiereDropdown = document.getElementById('filter-filiere');
-        const anneeDropdown = document.getElementById('filter-annee');
-        const matriculeInput = document.getElementById('filter-matricule');
-        const applyFilterBtn = document.getElementById('apply-filter-btn');
-        const quickFilterTags = document.querySelectorAll('#quick-filters .filter-tag');
-        const sidebarLinks = document.querySelectorAll('#sidebar-links a[data-filiere]');
+    function card(m, i) {
+      const href = m.exemple ? `detail.html?exemple=${encodeURIComponent(m.id)}` : `detail.html?id=${encodeURIComponent(m.id)}`;
+      return `<a class="card" href="${href}" style="animation-delay:${(i % PAGE) * 45}ms">
+        ${coverHTML(m, i < 10)}
+        <div class="card-meta"><span class="tag" data-f="${esc(m.filiere)}"><i class="dot"></i>${esc(m.filiere)}</span><span>${esc(m.annee)}</span></div>
+        <h3 class="card-title">${esc(m.titre)}</h3>
+        <p class="card-author">${esc(m.auteur)}</p>
+      </a>`;
+    }
 
-        // Stockage global des mémoires chargés depuis l'API
-        let allMemoires = [];
-        
-        // Mappage pour afficher le nom complet de la filière
-        const filiereMapping = {
-            'GIT': 'Génie Informatique et télécom',
-            'GCI': 'Génie Civil',
-            'GPH': 'Génie Physique',
-            'GM': 'Génie Mécanique',
-            'GE': 'Génie Énergétique',
-            'GP': 'Génie des Procédés',
-            'GMP': 'Génie Maritime et Portuaire',
-            'GAM': 'Génie Automobile et Mécatronique',
-            'QHSE': 'QHSE',
-            'MP': 'Master Professionnel'
-        };
+    function render() {
+      const list = filtered();
+      $("results-count").textContent = `${list.length} mémoire${list.length > 1 ? "s" : ""}`;
+      $("results-title").textContent = state.q ? "Résultats" : state.f ? FILIERES[state.f] : "Tous les mémoires";
+      document.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.f === state.f)));
+      if (!list.length) {
+        $("grid").innerHTML = `<div class="empty"><h3>Aucun mémoire trouvé</h3><p>Essayez un autre mot, ou retirez un filtre.</p></div>`;
+        $("more").hidden = true;
+      } else {
+        $("grid").innerHTML = list.slice(0, state.shown).map(card).join("");
+        $("more").hidden = list.length <= state.shown;
+      }
+      const url = new URL(location.href);
+      state.q ? url.searchParams.set("q", state.q) : url.searchParams.delete("q");
+      state.f ? url.searchParams.set("f", state.f) : url.searchParams.delete("f");
+      history.replaceState(null, "", url);
+    }
 
-        // Mappage de couleurs pour les badges de filière
-        const filiereColorMapping = {
-            'GIT': { bg: 'bg-indigo-100', text: 'text-indigo-800' },
-            'GCI': { bg: 'bg-green-100', text: 'text-green-800' },
-            'GPH': { bg: 'bg-red-100', text: 'text-red-800' },
-            'GM': { bg: 'bg-yellow-100', text: 'text-yellow-800' },
-            'GE': { bg: 'bg-blue-100', text: 'text-blue-800' },
-            'GP': { bg: 'bg-purple-100', text: 'text-purple-800' },
-            'GMP': { bg: 'bg-pink-100', text: 'text-pink-800' },
-            'GAM': { bg: 'bg-orange-100', text: 'text-orange-800' },
-            'QHSE': { bg: 'bg-teal-100', text: 'text-teal-800' },
-            'MP': { bg: 'bg-gray-100', text: 'text-gray-800' }
-        };
+    function fillYears(real) {
+      const years = [...new Set(state.all.map((m) => m.annee))].sort((a, b) => b - a);
+      $("year").innerHTML = `<option value="">Toutes les années</option>` + years.map((y) => `<option value="${esc(y)}">${esc(y)}</option>`).join("");
+      if (real) {
+        $("s-count").textContent = state.all.length;
+        $("s-years").textContent = years.length > 1 ? `${years.at(-1)} à ${years[0]}` : String(years[0] ?? "-");
+        const [dtCount, , dtYears] = document.querySelectorAll("#stats dt");
+        dtCount.textContent = state.all.length > 1 ? "mémoires" : "mémoire";
+        dtYears.textContent = years.length > 1 ? "années de soutenance" : "année de soutenance";
+      }
+      $("stats").hidden = !real;
+    }
 
-        // --- Gestion de la Sidebar (Menu Burger) ---
-        if (burgerBtn && sidebar && overlay) {
-            burgerBtn.addEventListener('click', () => {
-                sidebar.classList.remove('-translate-x-full');
-                overlay.classList.remove('hidden');
-            });
-            overlay.addEventListener('click', () => {
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.add('hidden');
-            });
+    async function load() {
+      skeletons();
+      try {
+        const data = await fetchJSON(API, { onSlow: () => notice("wake") });
+        if (Array.isArray(data) && data.length) {
+          state.all = data;
+          notice(null);
+          fillYears(true);
+        } else {
+          state.all = EXEMPLES;
+          notice("examples");
+          fillYears(false);
         }
+      } catch {
+        state.all = EXEMPLES;
+        notice("offline");
+        fillYears(false);
+      }
+      render();
+    }
 
-        // --- Gestion du Dropdown des Filtres ---
-        if (filterBtn && filterDropdown) {
-            filterBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                filterDropdown.classList.toggle('hidden');
-            });
-            document.addEventListener('click', (e) => {
-                if (filterDropdown && !filterDropdown.classList.contains('hidden') && !filterDropdown.contains(e.target) && !filterBtn.contains(e.target)) {
-                    filterDropdown.classList.add('hidden');
-                }
-            });
-        }
+    $("q").addEventListener("input", (e) => { state.q = e.target.value; state.shown = PAGE; render(); });
+    $("chips").addEventListener("click", (e) => {
+      const chip = e.target.closest(".chip");
+      if (!chip) return;
+      state.f = chip.dataset.f;
+      state.shown = PAGE;
+      render();
+    });
+    $("year").addEventListener("change", (e) => { state.year = e.target.value; state.shown = PAGE; render(); });
+    $("sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
+    $("more").addEventListener("click", () => { state.shown += PAGE; render(); });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "/" && !["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName)) {
+        e.preventDefault();
+        $("q").focus();
+      }
+    });
 
-        // ----------------------------------------------------
-        // LOGIQUE DYNAMIQUE
-        // ----------------------------------------------------
-
-        /**
-         * Mise à jour: Ajout de la gestion de l'état des quick filters lors du changement manuel du dropdown.
-         */
-        function updateQuickFilters(selectedFiliere) {
-            quickFilterTags.forEach(tag => {
-                if (tag.dataset.filiere === selectedFiliere) {
-                    tag.classList.add('active-tag');
-                } else {
-                    tag.classList.remove('active-tag');
-                }
-            });
-        }
-
-
-        
-        function populateAnneeFilter(maxAnnee) {
-            const startYear = 2020; // Début fixe à 2020, comme demandé
-            const endYear = maxAnnee; 
-
-            // Efface toutes les options sauf la première ("Toutes les années")
-            anneeDropdown.innerHTML = '<option value="">Toutes les années</option>'; 
-            
-            // Boucle pour ajouter les années de la plus récente à la plus ancienne
-            for (let year = endYear; year >= startYear; year--) {
-                const option = document.createElement('option');
-                option.value = year.toString();
-                option.textContent = year.toString();
-                anneeDropdown.appendChild(option);
-            }
-        }
-
-
-        /**
-         * 1. Crée le HTML pour une seule carte mémoire
-         */
-        function createCardHTML(memoire) {
-            
-            const matricule = memoire.matricule || memoire.student_id || 'N/A'; 
-            const axeRecherche = memoire.axe_recherche || memoire.axe || ''; 
-            
-            const dateSoumissionField = memoire.date_soumission || memoire.date_created || memoire.pub_date || null;
-            
-            const dateSoumission = dateSoumissionField 
-                ? new Date(dateSoumissionField).toLocaleDateString('fr-FR') 
-                : 'N/A';
-            
-            // Utilise l'ID du mémoire pour générer un lien vers une page de détail (même si elle n'existe pas encore, c'est une bonne pratique)
-            const pdfUrl = `https://bn-polytechnique-douala-api.onrender.com${memoire.fichier_pdf}`;
-            const fullFiliereName = filiereMapping[memoire.filiere] || memoire.filiere;
-            
-            const colors = filiereColorMapping[memoire.filiere] || { bg: 'bg-gray-100', text: 'text-gray-800' };
-
-            const axeHtml = axeRecherche 
-                ? `<p class="text-xs text-indigo-500 mt-1 mb-2 font-semibold">Axe: ${axeRecherche}</p>` 
-                : ''; 
-            
-
-            return `
-                <div class="group card-animate bg-white p-5 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl hover:border-indigo-200 transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between" 
-                    data-filiere="${memoire.filiere}" 
-                    data-annee="${memoire.annee}">
-                    
-                    <div>
-                        <span class="text-xs font-semibold uppercase tracking-wider ${colors.text} ${colors.bg} px-3 py-1 rounded-full">${fullFiliereName}</span>
-                        
-                        <a href="detail.html?id=${memoire.id}" class="block hover:text-indigo-600 transition-colors">
-                            <h4 class="text-lg font-bold text-gray-900 mt-2 mb-1 leading-snug">
-                                ${memoire.titre}
-                            </h4>
-                        </a>
-                        
-                        ${axeHtml}
-                        <p class="text-sm text-gray-500"><span class="font-medium text-gray-700">Auteur(s) :</span> ${memoire.auteur}</p>
-                        <p class="text-sm text-gray-500"><span class="font-medium text-gray-700">Matricule :</span> ${matricule}</p>
-                        <p class="text-sm text-gray-500"><span class="font-medium text-gray-700">Année :</span> ${memoire.annee}</p>
-                    </div>
-                    
-                    <div class="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
-                        <span class="text-xs text-gray-500 font-bold">Publié le: ${dateSoumission}</span>
-                        <a href="${pdfUrl}" target="_blank" rel="noopener noreferrer" class="text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white rounded-full px-3 py-1 transition-all duration-300 font-semibold flex items-center text-sm">
-                            Télécharger
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0.0 0.0 24.0 24.0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            `;
-        }
-
-        /**
-         * 2. Affiche les mémoires filtrés dans la grille
-         */
-        function renderCards(memoiresToRender) {
-            if (memoiresToRender.length === 0) {
-                cardGrid.innerHTML = '<p class="text-center text-slate-500 py-10 col-span-full">Aucun mémoire ne correspond à vos critères.</p>';
-            } else {
-                cardGrid.innerHTML = memoiresToRender.map(createCardHTML).join('');
-            }
-            resultsCountSpan.textContent = memoiresToRender.length;
-        }
-
-        /**
-         * 3. Fonction de filtrage principale
-         */
-        function filterMemoires() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const selectedFiliere = filiereDropdown.value; // Source of truth for filiere
-            const selectedAnnee = anneeDropdown.value;
-            const selectedMatricule = matriculeInput.value.toLowerCase(); 
-
-            // IMPORTANT: Synchronise les tags rapides avec l'état du dropdown après tout filtre
-            updateQuickFilters(selectedFiliere);
-            
-            const filteredMemoires = allMemoires.filter(memoire => {
-                const filiereMatch = (selectedFiliere === "" || memoire.filiere === selectedFiliere);
-                const anneeMatch = (selectedAnnee === "" || memoire.annee.toString() === selectedAnnee);
-
-                // On rend le matricule plus robuste pour le filtrage
-                const matriculeValue = memoire.matricule || memoire.student_id || '';
-
-                const textMatch = (
-                    memoire.titre.toLowerCase().includes(searchTerm) ||
-                    memoire.auteur.toLowerCase().includes(searchTerm) ||
-                    (memoire.axe_recherche && memoire.axe_recherche.toLowerCase().includes(searchTerm)) ||
-                    matriculeValue.toLowerCase().includes(searchTerm) // Ajout du matricule dans la recherche générale
-                );
-                
-                const matriculeMatch = (selectedMatricule === "" || matriculeValue.toLowerCase().includes(selectedMatricule));
-
-                return filiereMatch && anneeMatch && textMatch && matriculeMatch;
-            }).sort((a, b) => {
-                 // Tri par année décroissante
-                return parseInt(b.annee) - parseInt(a.annee);
-            });
-
-            renderCards(filteredMemoires);
-
-            if (filterDropdown) filterDropdown.classList.add('hidden');
-        }
-
-        /**
-         * 4. Charge les mémoires depuis l'API au démarrage
-         */
-        async function loadMemoires() {
-            cardGrid.innerHTML = '<p class="text-center text-slate-500 py-10 col-span-full">Chargement des mémoires...</p>';
-            resultsCountSpan.textContent = '...';
-
-            // Fonction utilitaire pour l'exponential backoff
-            const fetchWithRetry = async (url, options, maxRetries = 5) => {
-                let lastError = null;
-                for (let i = 0; i < maxRetries; i++) {
-                    try {
-                        const response = await fetch(url, options);
-                        if (!response.ok) {
-                            throw new Error(`Erreur HTTP: ${response.status}`);
-                        }
-                        return response;
-                    } catch (error) {
-                        lastError = error;
-                        const delay = Math.pow(2, i) * 1000; // 1s, 2s, 4s, 8s...
-                        if (i < maxRetries - 1) {
-                            await new Promise(resolve => setTimeout(resolve, delay));
-                        }
-                    }
-                }
-                throw lastError;
-            };
-
-            try {
-                // L'adresse de votre API sur Render
-                const response = await fetchWithRetry('https://bn-polytechnique-douala-api.onrender.com/api/memoires/');
-                
-                const data = await response.json();
-
-                // Sortir les données par défaut avant de les stocker
-                allMemoires = data.sort((a, b) => {
-                    return parseInt(b.annee) - parseInt(a.annee);
-                });
-                
-                // 💡 LOGIQUE AJOUTÉE: Calcule l'année maximale présente dans les mémoires
-                const currentYear = new Date().getFullYear();
-                const maxAnnee = allMemoires.reduce((max, memoire) => {
-                    // S'assure que l'année est un nombre
-                    const annee = parseInt(memoire.annee, 10);
-                    // On filtre les années invalides (NaN)
-                    if (isNaN(annee)) return max;
-                    return (annee > max) ? annee : max;
-                }, 2020); // Commence la réduction à 2020 ou à l'année courante
-
-                // Assure que l'année maximale affichée est au moins l'année actuelle si aucune donnée plus récente n'est trouvée
-                const finalMaxAnnee = Math.max(maxAnnee, currentYear);
-
-                // 💡 UTILISE l'année maximale trouvée pour mettre à jour la liste des options d'année
-                populateAnneeFilter(finalMaxAnnee);
-
-                renderCards(allMemoires); 
-
-            } catch (error) {
-                console.error("Erreur de chargement des mémoires:", error);
-                cardGrid.innerHTML = '<p class="text-center text-red-500 py-10 col-span-full">Échec du chargement des données. Veuillez vérifier que l\'API est accessible.</p>';
-                resultsCountSpan.textContent = 0;
-            }
-        }
-
-        // ----------------------------------------------------
-        // ATTACHE DES ÉCOUTEURS D'ÉVÉNEMENTS
-        // ----------------------------------------------------
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadMemoires(); 
-            
-            // Écouteur pour la recherche en temps réel
-            searchInput.addEventListener('input', filterMemoires);
-
-            // Écouteur pour l'application des filtres via le bouton
-            applyFilterBtn.addEventListener('click', filterMemoires);
-            
-            // Écouteur pour le changement de sélection dans le dropdown de filière
-            filiereDropdown.addEventListener('change', () => {
-                // S'assure que le filtre rapide est synchronisé
-                updateQuickFilters(filiereDropdown.value);
-                // Applique le filtre immédiatement au changement pour une meilleure UX
-                filterMemoires();
-            });
-
-            // Écouteur pour les tags de filtre rapide
-            quickFilterTags.forEach(tag => {
-                tag.addEventListener('click', () => {
-                    const filiere = tag.dataset.filiere;
-
-                    if (tag.classList.contains('active-tag')) {
-                        // Désactive le filtre
-                        filiereDropdown.value = ""; 
-                    } else {
-                        // Active le nouveau filtre
-                        filiereDropdown.value = filiere; 
-                    }
-                    // Le changement de filiereDropdown.value déclenchera filterMemoires() via l'écouteur 'change' s'il était actif,
-                    // mais nous le déclenchons ici explicitement aussi pour les cas où le 'change' ne se déclenche pas (comme dans le cas de la suppression).
-                    filterMemoires(); 
-                });
-            });
-
-            // Écouteur pour les liens de la sidebar
-            sidebarLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault(); 
-                    const filiere = e.currentTarget.dataset.filiere;
-
-                    // 1. Met à jour le dropdown de filière (Source de Vérité)
-                    filiereDropdown.value = filiere;
-
-                    // 2. Synchronise les tags rapides
-                    updateQuickFilters(filiere);
-
-                    // 3. Applique les filtres
-                    filterMemoires();
-
-                    // 4. Ferme la sidebar
-                    sidebar.classList.add('-translate-x-full');
-                    overlay.classList.add('hidden');
-                });
-            });
-        });
-
-    </script>
+    load();
+  </script>
 </body>
 </html>
-
